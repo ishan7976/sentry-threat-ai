@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as EmailScannerRouteImport } from './routes/email-scanner'
 import { Route as LinkScannerRouteImport } from './routes/link-scanner'
@@ -17,6 +18,11 @@ import { Route as LinkScannerRouteImport } from './routes/link-scanner'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoriesRoute = CategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -37,12 +43,14 @@ const LinkScannerRoute = LinkScannerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/categories': typeof CategoriesRoute
   '/dashboard': typeof DashboardRoute
   '/email-scanner': typeof EmailScannerRoute
   '/link-scanner': typeof LinkScannerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/categories': typeof CategoriesRoute
   '/dashboard': typeof DashboardRoute
   '/email-scanner': typeof EmailScannerRoute
   '/link-scanner': typeof LinkScannerRoute
@@ -50,20 +58,29 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/categories': typeof CategoriesRoute
   '/dashboard': typeof DashboardRoute
   '/email-scanner': typeof EmailScannerRoute
   '/link-scanner': typeof LinkScannerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/email-scanner' | '/link-scanner'
+  fullPaths:
+    '/' | '/categories' | '/dashboard' | '/email-scanner' | '/link-scanner'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/email-scanner' | '/link-scanner'
-  id: '__root__' | '/' | '/dashboard' | '/email-scanner' | '/link-scanner'
+  to: '/' | '/categories' | '/dashboard' | '/email-scanner' | '/link-scanner'
+  id:
+    | '__root__'
+    | '/'
+    | '/categories'
+    | '/dashboard'
+    | '/email-scanner'
+    | '/link-scanner'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CategoriesRoute: typeof CategoriesRoute
   DashboardRoute: typeof DashboardRoute
   EmailScannerRoute: typeof EmailScannerRoute
   LinkScannerRoute: typeof LinkScannerRoute
@@ -76,6 +93,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/categories': {
+      id: '/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof CategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -104,6 +128,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CategoriesRoute: CategoriesRoute,
   DashboardRoute: DashboardRoute,
   EmailScannerRoute: EmailScannerRoute,
   LinkScannerRoute: LinkScannerRoute,
