@@ -27,7 +27,7 @@ export const Route = createFileRoute("/link-scanner")({
       },
     ],
   }),
-  component: LinkScanner;
+  component: LinkScanner,
 });
 
 function LinkScanner() {
