@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EmailScannerRouteImport } from './routes/email-scanner'
+import { Route as LinkScannerRouteImport } from './routes/link-scanner'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const EmailScannerRoute = EmailScannerRouteImport.update({
   path: '/email-scanner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LinkScannerRoute = LinkScannerRouteImport.update({
+  id: '/link-scanner',
+  path: '/link-scanner',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/email-scanner': typeof EmailScannerRoute
+  '/link-scanner': typeof LinkScannerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/email-scanner': typeof EmailScannerRoute
+  '/link-scanner': typeof LinkScannerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/email-scanner': typeof EmailScannerRoute
+  '/link-scanner': typeof LinkScannerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/email-scanner'
+  fullPaths: '/' | '/email-scanner' | '/link-scanner'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/email-scanner'
-  id: '__root__' | '/' | '/email-scanner'
+  to: '/' | '/email-scanner' | '/link-scanner'
+  id: '__root__' | '/' | '/email-scanner' | '/link-scanner'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EmailScannerRoute: typeof EmailScannerRoute
+  LinkScannerRoute: typeof LinkScannerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmailScannerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/link-scanner': {
+      id: '/link-scanner'
+      path: '/link-scanner'
+      fullPath: '/link-scanner'
+      preLoaderRoute: typeof LinkScannerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EmailScannerRoute: EmailScannerRoute,
+  LinkScannerRoute: LinkScannerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
